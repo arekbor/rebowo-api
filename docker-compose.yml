@@ -1,9 +1,8 @@
 version: "3.8"
 
 services:
-  test:
+  api:
     build: .
-    # container_name: rebowo
     restart: always
     ports:
       - 8087:80
