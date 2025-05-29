@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  rebowo_api:
+    build: .
+    container_name: rebowo_api
+    restart: always
+    ports:
+      - 8087:80
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "100M"
+          pids: 100
