@@ -1,9 +1,9 @@
 version: "3.8"
 
 services:
-  rebowo_api:
+  api:
     build: .
-    container_name: rebowo_api
+    container_name: rebowo
     restart: always
     ports:
       - 8087:80
