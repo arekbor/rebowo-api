@@ -21,8 +21,8 @@ $timetable[0] = [
 
 foreach ($data as $index => $row) {
     $timetable[$index + 1] = [
-        'line' => trim(substr($row, 0, 3)),
-        'direction' => trim(substr($row, 3, getRowTimetableDirectionCutPos($row))),
+        'line' => trim(substr($row, 0, strpos($row, " "))),
+        'direction' => trim(substr($row, strpos($row, " "), getRowTimetableDirectionCutPos($row))),
         'departs' => trim(substr($row, getRowTimetableDirectionCutPos($row) + 1)),
         'color' => str_contains($row, '>>>') ? 'red' : 'white'
     ];
