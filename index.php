@@ -21,7 +21,7 @@ $timetable[0] = [
 
 foreach ($data as $index => $row) {
     $direction = trim(substr($row, strpos($row, " "), getRowTimetableDirectionCutPos($row)));
-    $direction = substr($direction, 0, 24);
+    $direction = substr($direction, 0, 20);
 
     $timetable[$index + 1] = [
         'line' => trim(substr($row, 0, strpos($row, " "))),
