@@ -6,8 +6,8 @@ $wrzeszcz_kierunek = getTimetable('https://ztm.gda.pl/rozklady/pobierz_SIP2.php?
 $lostowice_kierunek = DOMNodeListToArray($lostowice_kierunek);
 $wrzeszcz_kierunek = DOMNodeListToArray($wrzeszcz_kierunek);
 
-$lostowice_kierunek = array_slice($lostowice_kierunek, 0, 3);
-$wrzeszcz_kierunek = array_slice($wrzeszcz_kierunek, 0, 3);
+$lostowice_kierunek = array_slice($lostowice_kierunek, 0, 4);
+$wrzeszcz_kierunek = array_slice($wrzeszcz_kierunek, 0, 4);
 
 $data = array_merge($wrzeszcz_kierunek, $lostowice_kierunek);
 
