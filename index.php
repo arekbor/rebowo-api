@@ -6,19 +6,46 @@ $wrzeszcz_kierunek = getTimetable('https://ztm.gda.pl/rozklady/pobierz_SIP2.php?
 $lostowice_kierunek = DOMNodeListToArray($lostowice_kierunek);
 $wrzeszcz_kierunek = DOMNodeListToArray($wrzeszcz_kierunek);
 
-$data = array_merge($lostowice_kierunek, $wrzeszcz_kierunek);
+$lostowice_kierunek = array_slice($lostowice_kierunek, 0, 3);
+$wrzeszcz_kierunek = array_slice($wrzeszcz_kierunek, 0, 3);
 
-$limit = $_GET['limit'];
+$data = array_merge($wrzeszcz_kierunek, $lostowice_kierunek);
 
-if (isset($limit) && !empty($limit)) {
-    $count = count($data);
-    $limit = $limit > $count ? 5 : $limit;
-    $data = array_slice($data, 0, $limit);
+$timetable = [];
+
+$date = new \DateTime(timezone: new DateTimeZone('Europe/Warsaw'));
+
+$timetable[0] = [
+    'time' => date_format($date, "H:i")
+];
+
+foreach ($data as $index => $row) {
+    $timetable[$index + 1] = [
+        'line' => trim(substr($row, 0, 3)),
+        'direction' => trim(substr($row, 3, getRowTimetableDirectionCutPos($row))),
+        'departs' => trim(substr($row, getRowTimetableDirectionCutPos($row) + 1)),
+        'color' => str_contains($row, '>>>') ? 'red' : 'white'
+    ];
 }
 
 header('Content-Type: application/json');
 
-echo json_encode($data, JSON_UNESCAPED_UNICODE);
+echo json_encode($timetable, JSON_UNESCAPED_UNICODE);
+
+function getRowTimetableDirectionCutPos(string $row): int
+{
+    $offsetRow = substr($row, 3);
+    $markers = ['za', '>>>'];
+
+    foreach ($markers as $marker) {
+        $pos = strpos($offsetRow, $marker);
+        if ($pos !== false) {
+            return $pos;
+        }
+    }
+
+    return strlen($offsetRow) - 5;
+}
 
 function getTimetable(string $url): mixed
 {
